@@ -1,21 +1,21 @@
-﻿import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator } from 'react-native';
-import { onAuthStateChanged } from 'firebase/auth';
+﻿import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import CustomTabBar from '../button';
 import CustomTabBarGuru from '../ButtonGuru';
-import ScanScreen from '../ScanScreen';
-import LoginScreen from '../LoginScreen';
-import RegisterScreen from '../RegisterScreen';
-import LoginGuruScreen from '../LoginGuruScreen';
-import RegisterGuruScreen from '../RegisterGuruScreen';
-import ProfileScreen from '../ProfileScreen';
-import RoleScreen from '../RoleScreen';
+import { auth, db } from '../firebase';
 import GuruHomeScreen from '../GuruHomeScreen';
-import RekapScreen from '../RekapScreen';
-import QRTampilScreen from '../QRTampilScreen';
+import LoginGuruScreen from '../LoginGuruScreen';
+import LoginScreen from '../LoginScreen';
 import Logo from '../Logo';
+import ProfileScreen from '../ProfileScreen';
+import QRTampilScreen from '../QRTampilScreen';
+import RegisterGuruScreen from '../RegisterGuruScreen';
+import RegisterScreen from '../RegisterScreen';
+import RekapScreen from '../RekapScreen';
+import RoleScreen from '../RoleScreen';
+import ScanScreen from '../ScanScreen';
 
 const HomeScreen = () => (
   <View style={styles.screen}>
@@ -49,8 +49,13 @@ export default function Index() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        // Cek guru dulu
         const guruSnap = await getDoc(doc(db, 'guru', currentUser.uid));
-        setRole(guruSnap.exists() ? 'guru' : 'siswa');
+        if (guruSnap.exists()) {
+          setRole('guru');
+        } else {
+          setRole('siswa');
+        }
       } else {
         setUser(null);
         setRole(null);

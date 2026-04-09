@@ -1,30 +1,60 @@
-import React, { useState } from 'react';
-import {
-  View, Text, TextInput, TouchableOpacity, StyleSheet,
-  ActivityIndicator, Alert, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView,
-} from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import React, { useState } from 'react';
+import {
+  ActivityIndicator, Alert,
+  KeyboardAvoidingView, Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text, TextInput, TouchableOpacity,
+  View,
+} from 'react-native';
 import { auth, db } from './firebase';
 import Logo from './Logo';
 
 export default function RegisterScreen({ onRegister, onGoLogin }) {
-  const [nama, setNama] = useState('');
-  const [nis, setNis] = useState('');
   const [kelas, setKelas] = useState('');
+  const [password, setPassword] = useState('');
+  const [konfirmPassword, setKonfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (!nama.trim() || !nis.trim() || !kelas.trim()) { Alert.alert('Peringatan', 'Semua kolom harus diisi!'); return; }
-    if (nis.length < 5) { Alert.alert('Peringatan', 'NIS minimal 5 angka!'); return; }
+    if (!kelas.trim() || !password.trim() || !konfirmPassword.trim()) {
+      Alert.alert('Peringatan', 'Semua kolom harus diisi!');
+      return;
+    }
+    if (password.length < 6) {
+      Alert.alert('Peringatan', 'Password minimal 6 karakter!');
+      return;
+    }
+    if (password !== konfirmPassword) {
+      Alert.alert('Peringatan', 'Password tidak sama!');
+      return;
+    }
     setLoading(true);
     try {
-      const cred = await createUserWithEmailAndPassword(auth, `${nis.trim()}@foodtrayker.com`, nis.trim());
-      await setDoc(doc(db, 'siswa', cred.user.uid), { nama: nama.trim(), nis: nis.trim(), kelas: kelas.trim(), uid: cred.user.uid, createdAt: new Date().toLocaleDateString('id-ID') });
-      Alert.alert('Berhasil!', 'Akun berhasil dibuat.', [{ text: 'OK', onPress: onGoLogin }]);
+      const email = `kelas_${kelas.trim().toLowerCase()}@foodtrayker.com`;
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, 'kelas', cred.user.uid), {
+        kelas: kelas.trim().toUpperCase(),
+        uid: cred.user.uid,
+        createdAt: new Date().toLocaleDateString('id-ID'),
+        role: 'siswa',
+      });
+      Alert.alert('Berhasil!', `Akun kelas ${kelas.toUpperCase()} berhasil dibuat.`, [
+        { text: 'OK', onPress: onGoLogin },
+      ]);
     } catch (error) {
-      Alert.alert('Gagal', error.code === 'auth/email-already-in-use' ? 'NIS sudah terdaftar.' : 'Terjadi kesalahan.');
-    } finally { setLoading(false); }
+      if (error.code === 'auth/email-already-in-use') {
+        Alert.alert('Gagal', `Kelas ${kelas.toUpperCase()} sudah terdaftar.`);
+      } else {
+        Alert.alert('Gagal', 'Terjadi kesalahan. Coba lagi.');
+        console.error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,31 +62,65 @@ export default function RegisterScreen({ onRegister, onGoLogin }) {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.inner}>
           <View style={styles.header}>
-            <Logo size={80} />
+            <Logo size={90} />
             <Text style={styles.appName}>FoodTrayker</Text>
-            <Text style={styles.appSubtitle}>Daftar Akun Siswa</Text>
+            <Text style={styles.appSubtitle}>Daftar Akun Kelas</Text>
           </View>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Daftar</Text>
-            <Text style={styles.cardSubtitle}>Isi data diri kamu</Text>
-            {[['Nama Lengkap', nama, setNama, 'Masukkan nama lengkap', 'words', false],
-              ['NIS', nis, setNis, 'Masukkan NIS', 'none', true],
-              ['Kelas', kelas, setKelas, 'Contoh: 10A, 11B', 'characters', false]].map(([label, val, setter, ph, cap, numeric]) => (
-              <View key={label} style={styles.inputGroup}>
-                <Text style={styles.label}>{label}</Text>
-                <TextInput style={styles.input} placeholder={ph} value={val} onChangeText={setter} autoCapitalize={cap} keyboardType={numeric ? 'numeric' : 'default'} maxLength={numeric ? 20 : undefined} />
-              </View>
-            ))}
-            <View style={styles.infoBox}>
-              <Text style={styles.infoText}>🔒 Password default adalah NIS kamu</Text>
+            <Text style={styles.cardSubtitle}>Buat akun untuk kelasmu</Text>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Kelas</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Contoh: 10A, 11B, 12C"
+                value={kelas}
+                onChangeText={setKelas}
+                autoCapitalize="characters"
+              />
             </View>
-            <TouchableOpacity style={[styles.btnRegister, loading && { opacity: 0.6 }]} onPress={handleRegister} disabled={loading}>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Minimal 6 karakter"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Konfirmasi Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Ulangi password"
+                value={konfirmPassword}
+                onChangeText={setKonfirmPassword}
+                secureTextEntry
+              />
+            </View>
+
+            <View style={styles.infoBox}>
+              <Text style={styles.infoText}>ℹ️ 1 akun digunakan untuk seluruh siswa dalam kelas</Text>
+            </View>
+
+            <TouchableOpacity
+              style={[styles.btnRegister, loading && { opacity: 0.6 }]}
+              onPress={handleRegister}
+              disabled={loading}
+            >
               {loading ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.btnText}>Buat Akun</Text>}
             </TouchableOpacity>
           </View>
+
           <View style={styles.row}>
             <Text style={styles.rowText}>Sudah punya akun? </Text>
-            <TouchableOpacity onPress={onGoLogin}><Text style={styles.rowLink}>Masuk di sini</Text></TouchableOpacity>
+            <TouchableOpacity onPress={onGoLogin}>
+              <Text style={styles.rowLink}>Masuk di sini</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

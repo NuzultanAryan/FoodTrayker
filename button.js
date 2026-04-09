@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+ import React, { useState, useRef } from 'react';
 import { View, StyleSheet, TouchableOpacity, Animated, Text } from 'react-native';
 import { Home, Calendar, MessageSquare, User, QrCode, X, Plus } from 'lucide-react-native';
 

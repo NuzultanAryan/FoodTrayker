@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View, Text, StyleSheet, TouchableOpacity,
-  ActivityIndicator, SafeAreaView, Alert, ScrollView,
-} from 'react-native';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { auth, db } from './firebase';
-import Logo from './Logo';
 
 export default function ProfileScreen() {
   const [profil, setProfil] = useState(null);
@@ -18,17 +23,16 @@ export default function ProfileScreen() {
       try {
         const uid = auth.currentUser?.uid;
         if (!uid) return;
-
-        // Cek guru dulu
+        // Cek guru
         const guruSnap = await getDoc(doc(db, 'guru', uid));
         if (guruSnap.exists()) {
           setProfil(guruSnap.data());
           setIsGuru(true);
-        } else {
-          // Cek siswa
-          const siswaSnap = await getDoc(doc(db, 'siswa', uid));
-          if (siswaSnap.exists()) setProfil(siswaSnap.data());
+          return;
         }
+        // Cek kelas (siswa)
+        const kelasSnap = await getDoc(doc(db, 'kelas', uid));
+        if (kelasSnap.exists()) setProfil(kelasSnap.data());
       } catch (error) {
         console.error(error);
       } finally {
@@ -51,19 +55,21 @@ export default function ProfileScreen() {
     </View>
   );
 
-  const namaInisial = profil?.nama?.charAt(0).toUpperCase() || '?';
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
         {/* Avatar */}
         <View style={styles.avatarSection}>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{namaInisial}</Text>
+            <Text style={styles.avatarText}>
+              {isGuru ? '👨‍🏫' : '🎒'}
+            </Text>
           </View>
-          <Text style={styles.namaText}>{profil?.nama || '-'}</Text>
+          <Text style={styles.namaText}>
+            {isGuru ? profil?.nama : `Kelas ${profil?.kelas}`}
+          </Text>
           <Text style={styles.subText}>
-            {isGuru ? `NIP: ${profil?.nip || '-'}` : `Kelas ${profil?.kelas || '-'}`}
+            {isGuru ? `NIP: ${profil?.nip || '-'}` : 'Akun Kelas'}
           </Text>
           <View style={styles.roleBadge}>
             <Text style={styles.roleBadgeText}>{isGuru ? '👨‍🏫 Guru' : '🎒 Siswa'}</Text>
@@ -88,27 +94,17 @@ export default function ProfileScreen() {
                 <Text style={styles.infoLabel}>Role</Text>
                 <Text style={styles.infoValue}>Guru</Text>
               </View>
-              <View style={styles.divider} />
-              <View style={styles.infoRow}>
-                <Text style={styles.infoLabel}>Terdaftar Sejak</Text>
-                <Text style={styles.infoValue}>{profil?.createdAt || '-'}</Text>
-              </View>
             </>
           ) : (
             <>
               <View style={styles.infoRow}>
-                <Text style={styles.infoLabel}>NIS</Text>
-                <Text style={styles.infoValue}>{profil?.nis || '-'}</Text>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.infoRow}>
-                <Text style={styles.infoLabel}>Nama Lengkap</Text>
-                <Text style={styles.infoValue}>{profil?.nama || '-'}</Text>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.infoRow}>
                 <Text style={styles.infoLabel}>Kelas</Text>
                 <Text style={styles.infoValue}>{profil?.kelas || '-'}</Text>
+              </View>
+              <View style={styles.divider} />
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Tipe Akun</Text>
+                <Text style={styles.infoValue}>Akun Kelas</Text>
               </View>
               <View style={styles.divider} />
               <View style={styles.infoRow}>
@@ -119,7 +115,6 @@ export default function ProfileScreen() {
           )}
         </View>
 
-        {/* Logout */}
         <TouchableOpacity style={styles.btnLogout} onPress={handleLogout}>
           <Text style={styles.btnLogoutText}>Keluar</Text>
         </TouchableOpacity>
@@ -138,7 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8B0000', alignItems: 'center',
     justifyContent: 'center', marginBottom: 12,
   },
-  avatarText: { fontSize: 38, fontWeight: '700', color: '#FFFFFF' },
+  avatarText: { fontSize: 40 },
   namaText: { fontSize: 22, fontWeight: '700', color: '#1C1C1E', marginBottom: 4 },
   subText: { fontSize: 14, color: '#8E8E93', marginBottom: 8 },
   roleBadge: {

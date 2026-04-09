@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { Camera, CameraView } from 'expo-camera';
+import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
-  TextInput, Alert, ActivityIndicator, SafeAreaView,
+  ActivityIndicator,
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { CameraView, Camera } from 'expo-camera';
-import { collection, addDoc, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 
 export default function ScanScreen() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -22,7 +28,17 @@ export default function ScanScreen() {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     };
+    // Ambil data kelas dari akun yang login
+    const fetchKelas = async () => {
+      try {
+        const uid = auth.currentUser?.uid;
+        if (!uid) return;
+        const snap = await getDoc(doc(db, 'kelas', uid));
+        if (snap.exists()) setKelas(snap.data().kelas);
+      } catch (e) { console.error(e); }
+    };
     getPermission();
+    fetchKelas();
   }, []);
 
   const handleBarCodeScanned = ({ data }) => {
@@ -39,8 +55,8 @@ export default function ScanScreen() {
   };
 
   const handleSubmit = async () => {
-    if (!nama.trim() || !kelas.trim()) {
-      Alert.alert('Peringatan', 'Nama dan kelas harus diisi!');
+    if (!nama.trim()) {
+      Alert.alert('Peringatan', 'Nama harus diisi!');
       return;
     }
     setLoading(true);
@@ -49,15 +65,19 @@ export default function ScanScreen() {
       const q = query(
         collection(db, 'mbg_records'),
         where('nama', '==', nama.trim()),
-        where('kelas', '==', kelas.trim()),
+        where('kelas', '==', kelas),
         where('tanggal', '==', today)
       );
       const snap = await getDocs(q);
       if (snap.empty) {
         await addDoc(collection(db, 'mbg_records'), {
-          nama: nama.trim(), kelas: kelas.trim(), tanggal: today,
+          nama: nama.trim(),
+          kelas: kelas,
+          tanggal: today,
           waktu_ambil: new Date().toLocaleTimeString('id-ID'),
-          waktu_kembali: null, status: 'Sudah Ambil', qr_data: qrData,
+          waktu_kembali: null,
+          status: 'Sudah Ambil',
+          qr_data: qrData,
         });
         setStatusPesan('✅ Berhasil! Data pengambilan MBG tercatat.');
       } else {
@@ -82,83 +102,87 @@ export default function ScanScreen() {
   };
 
   const resetScan = () => {
-    setScanned(false); setNama(''); setKelas('');
+    setScanned(false); setNama('');
     setQrData(''); setStep('scan'); setStatusPesan('');
   };
 
-  // Loading permission
-  if (hasPermission === null) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#8B0000" />
-        <Text style={styles.permText}>Meminta izin kamera...</Text>
-      </View>
-    );
-  }
+  if (hasPermission === null) return (
+    <View style={styles.center}>
+      <ActivityIndicator size="large" color="#8B0000" />
+      <Text style={styles.permText}>Meminta izin kamera...</Text>
+    </View>
+  );
 
-  // Permission ditolak
-  if (hasPermission === false) {
-    return (
-      <View style={styles.center}>
-        <Text style={styles.permText}>Izin kamera ditolak.</Text>
-        <Text style={styles.permSubText}>Aktifkan izin kamera di pengaturan HP kamu.</Text>
-        <TouchableOpacity style={styles.btnRed} onPress={async () => {
-          const { status } = await Camera.requestCameraPermissionsAsync();
-          setHasPermission(status === 'granted');
-        }}>
-          <Text style={styles.btnWhiteText}>Coba Lagi</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  if (hasPermission === false) return (
+    <View style={styles.center}>
+      <Text style={styles.permText}>Izin kamera ditolak.</Text>
+      <Text style={styles.permSubText}>Aktifkan izin kamera di pengaturan HP.</Text>
+      <TouchableOpacity style={styles.btnRed} onPress={async () => {
+        const { status } = await Camera.requestCameraPermissionsAsync();
+        setHasPermission(status === 'granted');
+      }}>
+        <Text style={styles.btnWhiteText}>Coba Lagi</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   // SCAN
-  if (step === 'scan') {
-    return (
-      <View style={styles.cameraContainer}>
-        <CameraView
-          style={StyleSheet.absoluteFillObject}
-          facing="back"
-          barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
-          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-        />
-        <View style={styles.overlay}>
-          <Text style={styles.scanTitle}>Scan QR MBG</Text>
-          <View style={styles.scanBox} />
-          <Text style={styles.scanHint}>Arahkan kamera ke QR Code dari guru</Text>
-          {scanned && (
-            <TouchableOpacity style={styles.btnRescan} onPress={() => setScanned(false)}>
-              <Text style={styles.btnWhiteText}>Scan Ulang</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+  if (step === 'scan') return (
+    <View style={styles.cameraContainer}>
+      <CameraView
+        style={StyleSheet.absoluteFillObject}
+        facing="back"
+        barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
+        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+      />
+      <View style={styles.overlay}>
+        <Text style={styles.scanTitle}>Scan QR MBG</Text>
+        <View style={styles.scanBox} />
+        <Text style={styles.scanHint}>Arahkan kamera ke QR Code dari guru</Text>
+        {scanned && (
+          <TouchableOpacity style={styles.btnRescan} onPress={() => setScanned(false)}>
+            <Text style={styles.btnWhiteText}>Scan Ulang</Text>
+          </TouchableOpacity>
+        )}
       </View>
-    );
-  }
+    </View>
+  );
 
-  // FORM
-  if (step === 'form') {
-    return (
-      <SafeAreaView style={styles.formContainer}>
-        <Text style={styles.formTitle}>Isi Data Diri</Text>
-        <Text style={styles.formSubtitle}>QR berhasil discan! Lengkapi data kamu.</Text>
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Nama Lengkap</Text>
-          <TextInput style={styles.input} placeholder="Masukkan nama lengkap" value={nama} onChangeText={setNama} autoCapitalize="words" />
-        </View>
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Kelas</Text>
-          <TextInput style={styles.input} placeholder="Contoh: 10A, 11B" value={kelas} onChangeText={setKelas} autoCapitalize="characters" />
-        </View>
-        <TouchableOpacity style={[styles.btnRed, loading && { opacity: 0.6 }]} onPress={handleSubmit} disabled={loading}>
-          {loading ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.btnWhiteText}>Simpan Data</Text>}
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnCancel} onPress={resetScan}>
-          <Text style={styles.btnCancelText}>Batal</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    );
-  }
+  // FORM — hanya nama saja, kelas otomatis dari akun
+  if (step === 'form') return (
+    <SafeAreaView style={styles.formContainer}>
+      <Text style={styles.formTitle}>Siapa Kamu?</Text>
+      <Text style={styles.formSubtitle}>QR berhasil discan! Masukkan namamu.</Text>
+
+      <View style={styles.kelasInfo}>
+        <Text style={styles.kelasInfoText}>🏫 Kelas: <Text style={{ fontWeight: '700' }}>{kelas}</Text></Text>
+      </View>
+
+      <View style={styles.inputGroup}>
+        <Text style={styles.label}>Nama Lengkap</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Masukkan nama lengkapmu"
+          value={nama}
+          onChangeText={setNama}
+          autoCapitalize="words"
+          autoFocus
+        />
+      </View>
+
+      <TouchableOpacity
+        style={[styles.btnRed, loading && { opacity: 0.6 }]}
+        onPress={handleSubmit}
+        disabled={loading}
+      >
+        {loading ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.btnWhiteText}>Simpan</Text>}
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.btnCancel} onPress={resetScan}>
+        <Text style={styles.btnCancelText}>Batal</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
 
   // SUCCESS
   return (
@@ -191,7 +215,9 @@ const styles = StyleSheet.create({
   btnRescan: { marginTop: 24, backgroundColor: '#8B0000', borderRadius: 12, paddingVertical: 12, paddingHorizontal: 32 },
   formContainer: { flex: 1, backgroundColor: '#F2F2F7', padding: 24, justifyContent: 'center' },
   formTitle: { fontSize: 26, fontWeight: '700', color: '#1C1C1E', marginBottom: 6 },
-  formSubtitle: { fontSize: 14, color: '#8E8E93', marginBottom: 28 },
+  formSubtitle: { fontSize: 14, color: '#8E8E93', marginBottom: 20 },
+  kelasInfo: { backgroundColor: '#FFF0F0', borderRadius: 10, padding: 12, marginBottom: 20, borderWidth: 0.5, borderColor: '#8B0000' },
+  kelasInfoText: { fontSize: 14, color: '#8B0000' },
   inputGroup: { marginBottom: 16 },
   label: { fontSize: 12, fontWeight: '600', color: '#8E8E93', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 },
   input: { backgroundColor: '#FFFFFF', borderRadius: 12, padding: 14, fontSize: 15, borderWidth: 0.5, borderColor: '#E0E0E0', color: '#1C1C1E' },
