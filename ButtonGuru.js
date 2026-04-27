@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { View, StyleSheet, TouchableOpacity, Animated, Text } from 'react-native';
-import { Home, BarChart2, MessageSquare, User, QrCode, X, Plus } from 'lucide-react-native';
+import { BarChart2, Home, MessageSquare, Plus, QrCode, User, X } from 'lucide-react-native';
+import { useRef, useState } from 'react';
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const HexagonButton = ({ onPress, isOpen }) => (
   <TouchableOpacity onPress={onPress} style={styles.hexWrap}>
@@ -71,7 +71,7 @@ const CustomTabBarGuru = ({ activePage, onTabPress }) => {
     </View>
   );
 };
-
+//hexguru
 const HEX_SIZE = 54;
 const styles = StyleSheet.create({
   container: { position: 'absolute', bottom: 24, width: '100%', paddingHorizontal: 16, alignItems: 'center' },
