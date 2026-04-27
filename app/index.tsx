@@ -16,7 +16,6 @@ import RegisterScreen from '../RegisterScreen';
 import RekapScreen from '../RekapScreen';
 import RoleScreen from '../RoleScreen';
 import ScanScreen from '../ScanScreen';
-
 const HomeScreen = () => (
   <View style={styles.screen}>
     <Text style={styles.pageTitle}>Home</Text>
