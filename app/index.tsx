@@ -6,6 +6,7 @@ import CustomTabBar from '../button';
 import CustomTabBarGuru from '../ButtonGuru';
 import { auth, db } from '../firebase';
 import GuruHomeScreen from '../GuruHomeScreen';
+import HomeScreen from '../HomeScreen';
 import LoginGuruScreen from '../LoginGuruScreen';
 import LoginScreen from '../LoginScreen';
 import Logo from '../Logo';
@@ -16,16 +17,11 @@ import RegisterScreen from '../RegisterScreen';
 import RekapScreen from '../RekapScreen';
 import RoleScreen from '../RoleScreen';
 import ScanScreen from '../ScanScreen';
-const HomeScreen = () => (
-  <View style={styles.screen}>
-    <Text style={styles.pageTitle}>Home</Text>
-    <Text style={styles.pageSubtitle}>Selamat datang di FoodTrayker!</Text>
-  </View>
-);
+
 const CalendarScreen = () => (
   <View style={styles.screen}>
     <Text style={styles.pageTitle}>Kalender</Text>
-    <Text style={styles.pageSubtitle}>Jadwal kamu akan muncul di sini.</Text>
+    <Text style={styles.pageSubtitle}>Segera hadir!</Text>
   </View>
 );
 const MessagesScreen = () => (
@@ -48,13 +44,8 @@ export default function Index() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        // Cek guru dulu
         const guruSnap = await getDoc(doc(db, 'guru', currentUser.uid));
-        if (guruSnap.exists()) {
-          setRole('guru');
-        } else {
-          setRole('siswa');
-        }
+        setRole(guruSnap.exists() ? 'guru' : 'siswa');
       } else {
         setUser(null);
         setRole(null);
