@@ -7,6 +7,7 @@ import CustomTabBarGuru from '../ButtonGuru';
 import CalendarScreen from '../CalendarScreen'; // ← satu-satunya tambahan
 import { auth, db } from '../firebase';
 import GuruHomeScreen from '../GuruHomeScreen';
+import HomeScreen from '../HomeScreen';
 import LoginGuruScreen from '../LoginGuruScreen';
 import LoginScreen from '../LoginScreen';
 import Logo from '../Logo';
@@ -18,12 +19,7 @@ import RekapScreen from '../RekapScreen';
 import RoleScreen from '../RoleScreen';
 import ScanScreen from '../ScanScreen';
 
-const HomeScreen = () => (
-  <View style={styles.screen}>
-    <Text style={styles.pageTitle}>Home</Text>
-    <Text style={styles.pageSubtitle}>Selamat datang di FoodTrayker!</Text>
-  </View>
-);
+
 
 const MessagesScreen = () => (
   <View style={styles.screen}>
