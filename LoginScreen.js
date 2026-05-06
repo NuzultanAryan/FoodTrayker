@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ActivityIndicator, Alert,
   KeyboardAvoidingView, Platform,
@@ -60,7 +60,7 @@ export default function LoginScreen({ onLogin, onGoRegister, onBack }) {
             <Text style={styles.label}>Kelas</Text>
             <TextInput
               style={styles.input}
-              placeholder="Contoh: 10A, 11B, 12C"
+              placeholder="Contoh: XPPLG1, XPPLG2, XPPLG3"
               value={kelas}
               onChangeText={setKelas}
               autoCapitalize="characters"
