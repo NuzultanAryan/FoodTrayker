@@ -28,26 +28,30 @@ export default function CalendarScreen() {
   const [streak, setStreak] = useState(0);
   const [namaSiswa, setNamaSiswa] = useState('');
 
-  // Step 1: ambil nama siswa dari koleksi 'siswa' pakai uid login
   useEffect(() => {
-    const fetchNama = async () => {
-      try {
-        const uid = auth.currentUser?.uid;
-        if (!uid) return;
-        const snap = await getDoc(doc(db, 'siswa', uid));
-        if (snap.exists()) setNamaSiswa(snap.data().nama);
-      } catch (err) {
-        console.error('Gagal ambil profil:', err);
-        setLoading(false);
+  const fetchNama = async () => {
+    try {
+      const uid = auth.currentUser?.uid;
+      if (!uid) { setLoading(false); return; }
+      const snap = await getDoc(doc(db, 'siswa', uid));
+      if (snap.exists()) {
+        setNamaSiswa(snap.data().nama);
+      } else {
+        setLoading(false); // siswa tidak ditemukan
       }
-    };
-    fetchNama();
-  }, []);
+    } catch (err) {
+      console.error('Gagal ambil profil:', err);
+      setLoading(false);
+    }
+  };
+  fetchNama();
+}, []);
 
-  // Step 2: setelah nama tersedia, ambil records
-  useEffect(() => {
-    if (namaSiswa) fetchRecords();
-  }, [namaSiswa, curYear, curMonth]);
+useEffect(() => {
+  if (namaSiswa) {
+    fetchRecords();
+  }
+}, [namaSiswa, curYear, curMonth]);
 
   const fetchRecords = async () => {
     setLoading(true);
