@@ -10,6 +10,7 @@ import HomeScreen from '../HomeScreen';
 import LoginGuruScreen from '../LoginGuruScreen';
 import LoginScreen from '../LoginScreen';
 import Logo from '../Logo';
+import MessagesScreen from '../PesanScreen';
 import ProfileScreen from '../ProfileScreen';
 import QRTampilScreen from '../QRTampilScreen';
 import RegisterGuruScreen from '../RegisterGuruScreen';
@@ -18,18 +19,14 @@ import RekapScreen from '../RekapScreen';
 import RoleScreen from '../RoleScreen';
 import ScanScreen from '../ScanScreen';
 
+
 const CalendarScreen = () => (
   <View style={styles.screen}>
     <Text style={styles.pageTitle}>Kalender</Text>
     <Text style={styles.pageSubtitle}>Segera hadir!</Text>
   </View>
 );
-const MessagesScreen = () => (
-  <View style={styles.screen}>
-    <Text style={styles.pageTitle}>Pesan</Text>
-    <Text style={styles.pageSubtitle}>Belum ada pesan masuk.</Text>
-  </View>
-);
+
 
 export default function Index() {
   const [activePage, setActivePage] = useState('home');
