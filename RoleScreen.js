@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Logo from './Logo';
 
 export default function RoleScreen({ onSelectRole }) {
@@ -19,14 +19,14 @@ export default function RoleScreen({ onSelectRole }) {
             style={[styles.roleCard, selectedRole === 'siswa' && styles.roleCardActive]}
             onPress={() => setSelectedRole('siswa')}
           >
-            <Text style={styles.roleEmoji}>🎒</Text>
+            <Text style={styles.roleEmoji}>🧑‍🎓</Text>
             <Text style={[styles.roleLabel, selectedRole === 'siswa' && styles.roleLabelActive]}>Siswa</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.roleCard, selectedRole === 'guru' && styles.roleCardActive]}
             onPress={() => setSelectedRole('guru')}
           >
-            <Text style={styles.roleEmoji}>👨‍🏫</Text>
+            <Text style={styles.roleEmoji}>🧑‍🏫</Text>
             <Text style={[styles.roleLabel, selectedRole === 'guru' && styles.roleLabelActive]}>Guru</Text>
           </TouchableOpacity>
         </View>
