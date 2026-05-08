@@ -1,23 +1,23 @@
 import {
-    addDoc,
-    collection,
-    doc,
-    getDoc,
-    onSnapshot,
-    orderBy,
-    query,
-    serverTimestamp,
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
 } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 import {
-    ActivityIndicator,
-    FlatList,
-    KeyboardAvoidingView, Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput, TouchableOpacity,
-    View,
+  ActivityIndicator,
+  FlatList,
+  KeyboardAvoidingView, Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput, TouchableOpacity,
+  View,
 } from 'react-native';
 import { auth, db } from './firebase';
 
@@ -138,10 +138,10 @@ export default function PesanScreen() {
       </View>
 
       {/* Messages */}
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={90}
+     <KeyboardAvoidingView
+      style={{ flex: 1, paddingBottom: 100 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={120}
       >
         {messages.length === 0 ? (
           <View style={styles.emptyWrap}>
