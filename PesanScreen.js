@@ -140,7 +140,7 @@ export default function PesanScreen() {
       {/* Messages */}
      <KeyboardAvoidingView
       style={{ flex: 1, paddingBottom: 100 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={120}
       >
         {messages.length === 0 ? (
