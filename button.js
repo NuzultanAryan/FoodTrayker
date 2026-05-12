@@ -1,6 +1,6 @@
- import React, { useState, useRef } from 'react';
-import { View, StyleSheet, TouchableOpacity, Animated, Text } from 'react-native';
-import { Home, Calendar, MessageSquare, User, QrCode, X, Plus } from 'lucide-react-native';
+ import { Calendar, Home, MessageSquare, Plus, QrCode, User, X } from 'lucide-react-native';
+import { useRef, useState } from 'react';
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const HexagonButton = ({ onPress, isOpen }) => (
   <TouchableOpacity onPress={onPress} style={styles.hexWrap}>
