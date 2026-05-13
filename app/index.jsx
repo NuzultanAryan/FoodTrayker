@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import CustomTabBar from '../button';
 import CustomTabBarGuru from '../ButtonGuru';
-import CalendarScreen from '../CalendarScreen'; // ← satu-satunya tambahan
+import CalendarScreen from '../CalendarScreen';
 import { auth, db } from '../firebase';
 import GuruHomeScreen from '../GuruHomeScreen';
 import HomeScreen from '../HomeScreen';
 import LoginGuruScreen from '../LoginGuruScreen';
 import LoginScreen from '../LoginScreen';
 import Logo from '../Logo';
-import MessagesScreen from '../PesanScreen';``
+import MessagesScreen from '../PesanScreen';
 import ProfileScreen from '../ProfileScreen';
 import QRTampilScreen from '../QRTampilScreen';
 import RegisterGuruScreen from '../RegisterGuruScreen';

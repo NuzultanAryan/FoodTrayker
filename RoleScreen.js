@@ -8,7 +8,7 @@ export default function RoleScreen({ onSelectRole }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Logo size={100} />
-        <Text style={styles.appName}>FoodTrayker</Text>
+        <Text style={[styles.appName, { color: '#8B0000' }]}>Food<Text style={[styles.appName, { color: '#000000' }]}>Trayker</Text></Text>
         <Text style={styles.appSubtitle}>Sistem Pengambilan MBG</Text>
       </View>
       <View style={styles.card}>
