@@ -1,7 +1,7 @@
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 import { collection, getDocs } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -62,21 +62,42 @@ export default function RekapScreen() {
     }
     setLoadingExcel(true);
     try {
-      let csv = 'No,Nama,Kelas,Tanggal,Waktu Ambil,Waktu Kembali,Status\n';
+      // BOM agar Excel bisa baca karakter Indonesia
+      const BOM = '\uFEFF';
+      let csv = BOM + 'No,Kelas,Tanggal,Waktu Ambil,Waktu Kembali,Status\n';
       records.forEach((r, i) => {
-        csv += `${i + 1},"${r.nama || ''}","${r.kelas || ''}","${r.tanggal || ''}","${r.waktu_ambil || '-'}","${r.waktu_kembali || '-'}","${r.status || ''}"\n`;
+        const kelas = (r.kelas || r.nama || '-').replace(/,/g, ' ');
+        const tanggal = (r.tanggal || '-').replace(/,/g, ' ');
+        const waktuAmbil = (r.waktu_ambil || '-').replace(/,/g, ' ');
+        const waktuKembali = (r.waktu_kembali || '-').replace(/,/g, ' ');
+        const status = (r.status || '-').replace(/,/g, ' ');
+        csv += `${i + 1},"${kelas}","${tanggal}","${waktuAmbil}","${waktuKembali}","${status}"\n`;
       });
-      const fileName = `Laporan_MBG_Minggu_Ini.csv`;
-      const filePath = `${FileSystem.documentDirectory}${fileName}`;
-      await FileSystem.writeAsStringAsync(filePath, csv, { encoding: FileSystem.EncodingType.UTF8 });
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (isAvailable) {
-        await Sharing.shareAsync(filePath, { mimeType: 'text/csv', dialogTitle: 'Simpan Laporan MBG' });
-      } else {
-        Alert.alert('Tersimpan', `File: ${filePath}`);
+
+      const now = new Date();
+      const tgl = now.toLocaleDateString('id-ID').replace(/\//g, '-');
+      const fileName = `Rekap_MBG_${tgl}.csv`;
+      const filePath = FileSystem.documentDirectory + fileName;
+
+      await FileSystem.writeAsStringAsync(filePath, csv, {
+        encoding: 'utf8',
+      });
+
+      const canShare = await Sharing.isAvailableAsync();
+      if (!canShare) {
+        Alert.alert('Info', `File disimpan di:\n${filePath}`);
+        return;
       }
+
+      await Sharing.shareAsync(filePath, {
+        mimeType: 'text/csv',
+        dialogTitle: 'Simpan Laporan MBG',
+        UTI: 'public.comma-separated-values-text',
+      });
+
     } catch (err) {
-      Alert.alert('Error', 'Gagal membuat laporan.');
+      console.error('Export error:', err);
+      Alert.alert('Error', `Gagal membuat laporan:\n${err.message}`);
     } finally {
       setLoadingExcel(false);
     }
@@ -172,7 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#8B0000', borderRadius: 12,
     padding: 14, alignItems: 'center', marginBottom: 20,
   },
-  btnExcelText: { color: '#FFFFFF',  fontSize: 15, fontWeight: '700', color: '#ffffff' },
+  btnExcelText: { color: '#FFFFFF',  fontSize: 15, fontWeight: '700', color: '#1C1C1E' },
   emptyWrap: { alignItems: 'center', marginTop: 40 },
   emptyText: { color: '#666666', fontSize: 15 },
   recordCard: {
