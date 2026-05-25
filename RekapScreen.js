@@ -22,13 +22,11 @@ export default function RekapScreen() {
   const [loading, setLoading] = useState(true);
   const [loadingExcel, setLoadingExcel] = useState(false);
 
-  // Kalender state
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState(null); // tanggal yang diklik
 
-  // Fetch semua data dari Firebase
   useEffect(() => { fetchAll(); }, []);
 
   const fetchAll = async () => {
@@ -45,7 +43,6 @@ export default function RekapScreen() {
     }
   };
 
-  // Convert tanggal Indonesia ke Date object
   const parseIndonesianDate = (tgl) => {
     if (!tgl) return null;
     const parts = tgl.split('/');
@@ -53,19 +50,16 @@ export default function RekapScreen() {
     return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
   };
 
-  // Cek apakah tanggal punya data
   const hasData = (day) => {
     const d = new Date(currentYear, currentMonth, day);
     const tglStr = d.toLocaleDateString('id-ID');
     return allRecords.some(r => r.tanggal === tglStr);
   };
 
-  // Data per tanggal yang dipilih
   const dataHariIni = selectedDate
     ? allRecords.filter(r => r.tanggal === selectedDate)
     : [];
 
-  // Data per minggu aktif (minggu yang mengandung hari ini atau selectedDate)
   const getWeekData = () => {
     const base = selectedDate
       ? parseIndonesianDate(selectedDate) || today
@@ -88,7 +82,6 @@ export default function RekapScreen() {
 
   const weekInfo = getWeekData();
 
-  // Generate kalender
   const generateCalendar = () => {
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -117,7 +110,6 @@ export default function RekapScreen() {
     setSelectedDate(null);
   };
 
-  // Download CSV
   const downloadCSV = async (data, label) => {
     if (data.length === 0) {
       Alert.alert('Info', `Tidak ada data untuk ${label}.`);
@@ -192,7 +184,7 @@ export default function RekapScreen() {
             ))}
           </View>
 
-          {/* Grid tanggal */}
+       
           <View style={styles.calGrid}>
             {cells.map((day, idx) => {
               if (!day) return <View key={`e-${idx}`} style={styles.calCell} />;
@@ -224,7 +216,6 @@ export default function RekapScreen() {
             })}
           </View>
 
-          {/* Legend */}
           <View style={styles.legendRow}>
             <View style={styles.legendItem}>
               <View style={[styles.legendDot, { backgroundColor: '#8B0000' }]} />
@@ -237,7 +228,6 @@ export default function RekapScreen() {
           </View>
         </View>
 
-        {/* ── DATA HARIAN ── */}
         {selectedDate && (
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
@@ -276,14 +266,13 @@ export default function RekapScreen() {
           </View>
         )}
 
-        {/* ── REKAP MINGGUAN ── */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>📊 Rekap Mingguan</Text>
           </View>
           <Text style={styles.weekRangeText}>{weekInfo.start} — {weekInfo.end}</Text>
 
-          {/* Summary */}
+   
           <View style={styles.summaryRow}>
             <View style={styles.summaryCard}>
               <Text style={styles.summaryNum}>{weekInfo.data.length}</Text>

@@ -37,7 +37,7 @@ export default function CalendarScreen() {
       if (snap.exists()) {
         setNamaSiswa(snap.data().nama);
       } else {
-        setLoading(false); // siswa tidak ditemukan
+        setLoading(false);
       }
     } catch (err) {
       console.error('Gagal ambil profil:', err);

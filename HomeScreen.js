@@ -94,7 +94,6 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
-        {/* Header */}
         <View style={styles.header}>
           <View>
             <Text style={styles.sapa}>{sapa} </Text>
@@ -105,7 +104,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Status Hari Ini */}
         <View style={styles.statusCard}>
           <Text style={styles.statusLabel}>Status MBG Hari Ini</Text>
           {statusHariIni ? (
@@ -130,7 +128,6 @@ export default function HomeScreen() {
           )}
         </View>
 
-        {/* Statistik */}
         <Text style={styles.sectionTitle}>Statistik Kelas</Text>
         <View style={styles.statsRow}>
           <View style={styles.statCard}>
@@ -147,7 +144,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Riwayat */}
         <View style={styles.riwayatHeader}>
           <Text style={styles.sectionTitle}>Riwayat Terbaru</Text>
           <TouchableOpacity onPress={fetchData}>
