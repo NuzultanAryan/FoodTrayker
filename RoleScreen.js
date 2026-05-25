@@ -13,7 +13,6 @@ export default function RoleScreen({ onSelectRole, onAdminRegister, onAdminLogin
       setTapCount(0);
       onAdminRegister();
     } else if (newCount === 3) {
-      // 3 tap = login admin
       setTimeout(() => {
         if (tapCount + 1 === 3) {
           setTapCount(0);
