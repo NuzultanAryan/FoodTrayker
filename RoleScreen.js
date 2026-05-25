@@ -46,14 +46,14 @@ export default function RoleScreen({ onSelectRole, onAdminRegister, onAdminLogin
             style={[styles.roleCard, selectedRole === 'siswa' && styles.roleCardActive]}
             onPress={() => setSelectedRole('siswa')}
           >
-            <Text style={styles.roleEmoji}>🎒</Text>
+            <Text style={styles.roleEmoji}>🧑🏻‍🎓</Text>
             <Text style={[styles.roleLabel, selectedRole === 'siswa' && styles.roleLabelActive]}>Siswa</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.roleCard, selectedRole === 'guru' && styles.roleCardActive]}
             onPress={() => setSelectedRole('guru')}
           >
-            <Text style={styles.roleEmoji}>👨‍🏫</Text>
+            <Text style={styles.roleEmoji}>🧑🏻‍🏫</Text>
             <Text style={[styles.roleLabel, selectedRole === 'guru' && styles.roleLabelActive]}>Guru</Text>
           </TouchableOpacity>
         </View>

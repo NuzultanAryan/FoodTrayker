@@ -1,6 +1,6 @@
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -62,7 +62,7 @@ export default function ProfileScreen() {
         <View style={styles.avatarSection}>
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>
-              {isGuru ? '👨‍🏫' : '🎒'}
+              {isGuru ? '🧑🏻‍🏫' : '🧑🏻‍🎓'}
             </Text>
           </View>
           <Text style={styles.namaText}>
