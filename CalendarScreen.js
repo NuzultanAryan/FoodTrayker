@@ -56,7 +56,6 @@ useEffect(() => {
   const fetchRecords = async () => {
     setLoading(true);
     try {
-      // Query pakai nama — tidak butuh field uid di mbg_records
       const snap = await getDocs(
         query(collection(db, 'mbg_records'), where('nama', '==', namaSiswa))
       );
@@ -64,7 +63,6 @@ useEffect(() => {
       const all = [];
       snap.forEach((d) => all.push({ id: d.id, ...d.data() }));
 
-      // Filter bulan & tahun yang sedang ditampilkan
       const monthRecs = all.filter((r) => {
         const parts = r.tanggal?.split('/');
         if (!parts || parts.length !== 3) return false;
@@ -165,7 +163,6 @@ useEffect(() => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
 
-        {/* Header */}
         <View style={styles.header}>
           <View>
             <Text style={styles.headerTitle}>Riwayat MBG</Text>
@@ -184,7 +181,6 @@ useEffect(() => {
           </View>
         </View>
 
-        {/* Kalender */}
         <View style={styles.calCard}>
           <View style={styles.weekdayRow}>
             {WEEKDAY_SHORT.map((w) => (
@@ -237,7 +233,6 @@ useEffect(() => {
           </View>
         </View>
 
-        {/* Legend */}
         <View style={styles.legendRow}>
           <View style={styles.legendItem}>
             <View style={[styles.legendDot, { backgroundColor: '#4CAF50' }]} />
@@ -253,7 +248,6 @@ useEffect(() => {
           </View>
         </View>
 
-        {/* Stats */}
         <View style={styles.statsRow}>
           <View style={styles.statCard}>
             <Text style={[styles.statNum, { color: '#4CAF50' }]}>{countAmbil}</Text>
@@ -265,7 +259,6 @@ useEffect(() => {
           </View>
         </View>
 
-        {/* Streak */}
         <View style={styles.streakCard}>
           <View>
             <Text style={styles.streakNum}>{streak}</Text>
@@ -274,7 +267,6 @@ useEffect(() => {
           <Text style={styles.streakIcon}>🔥</Text>
         </View>
 
-        {/* Detail hari yang dipilih */}
         {selectedDay && (
           <View style={styles.detailSection}>
             <Text style={styles.sectionTitle}>

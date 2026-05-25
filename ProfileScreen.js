@@ -23,14 +23,14 @@ export default function ProfileScreen() {
       try {
         const uid = auth.currentUser?.uid;
         if (!uid) return;
-        // Cek guru
+        
         const guruSnap = await getDoc(doc(db, 'guru', uid));
         if (guruSnap.exists()) {
           setProfil(guruSnap.data());
           setIsGuru(true);
           return;
         }
-        // Cek kelas (siswa)
+
         const kelasSnap = await getDoc(doc(db, 'kelas', uid));
         if (kelasSnap.exists()) setProfil(kelasSnap.data());
       } catch (error) {
@@ -76,7 +76,6 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        {/* Info Card */}
         <View style={styles.card}>
           {isGuru ? (
             <>
