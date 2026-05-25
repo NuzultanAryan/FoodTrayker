@@ -6,6 +6,7 @@ import AdminDaftarSiswaScreen from '../AdminDaftarSiswaScreen';
 import CustomTabBar from '../button';
 import CustomTabBarAdmin from '../ButtonAdmin';
 import CustomTabBarGuru from '../ButtonGuru';
+import CalendarScreen from '../CalendarScreen';
 import { auth, db } from '../firebase';
 import GuruHomeScreen from '../GuruHomeScreen';
 import HomeScreen from '../HomeScreen';
@@ -13,7 +14,7 @@ import LoginAdminScreen from '../LoginAdminScreen';
 import LoginGuruScreen from '../LoginGuruScreen';
 import LoginScreen from '../LoginScreen';
 import Logo from '../Logo';
-import PesanScreen from '../PesanScreen';
+import { default as MessagesScreen, default as PesanScreen } from '../PesanScreen';
 import ProfileScreen from '../ProfileScreen';
 import QRTampilScreen from '../QRTampilScreen';
 import RegisterAdminScreen from '../RegisterAdminScreen';
@@ -23,18 +24,6 @@ import RekapScreen from '../RekapScreen';
 import RoleScreen from '../RoleScreen';
 import ScanScreen from '../ScanScreen';
 
-const CalendarScreen = () => (
-  <View style={styles.screen}>
-    <Text style={styles.pageTitle}>Kalender</Text>
-    <Text style={styles.pageSubtitle}>Segera hadir!</Text>
-  </View>
-);
-const MessagesScreen = () => (
-  <View style={styles.screen}>
-    <Text style={styles.pageTitle}>Pesan</Text>
-    <Text style={styles.pageSubtitle}>Belum ada pesan masuk.</Text>
-  </View>
-);
 const AdminHomeScreen = () => (
   <View style={styles.screen}>
     <Text style={styles.pageTitle}>👋 Halo, Admin!</Text>

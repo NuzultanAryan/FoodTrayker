@@ -83,7 +83,7 @@ export default function RegisterAdminScreen({ onBack }) {
             <Logo size={80} />
             <Text style={styles.appName}>FoodTrayker</Text>
             <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>🔐 Registrasi Admin</Text>
+              <Text style={styles.adminBadgeText}>Registrasi Admin</Text>
             </View>
           </View>
 
@@ -128,7 +128,7 @@ export default function RegisterAdminScreen({ onBack }) {
                   style={styles.eyeBtn}
                   onPress={() => setShowKode(!showKode)}
                 >
-                  <Text style={styles.eyeText}>{showKode ? '🙈' : '👁️'}</Text>
+                  <Text style={styles.eyeText}>{showKode ? 'Sembunyikan' : 'Tunjukkan'}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -175,7 +175,7 @@ export default function RegisterAdminScreen({ onBack }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F2F2F7' },
   inner: { padding: 24, flexGrow: 1 },
-  backBtn: { marginBottom: 16 },
+  backBtn: { marginBottom: 16, top: 16,},
   backText: { fontSize: 15, color: '#8B0000', fontWeight: '500' },
   header: { alignItems: 'center', marginBottom: 24 },
   appName: { fontSize: 22, fontWeight: '700', color: '#1C1C1E', marginTop: 10 },

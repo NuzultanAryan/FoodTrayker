@@ -44,7 +44,7 @@ export default function LoginAdminScreen({ onLogin, onBack }) {
           <Logo size={90} />
           <Text style={styles.appName}>FoodTrayker</Text>
           <View style={styles.adminBadge}>
-            <Text style={styles.adminBadgeText}>🔐 Login Admin</Text>
+            <Text style={styles.adminBadgeText}>Login Admin</Text>
           </View>
         </View>
 
@@ -90,7 +90,7 @@ export default function LoginAdminScreen({ onLogin, onBack }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F2F2F7' },
   inner: { flex: 1, padding: 24, justifyContent: 'center' },
-  backBtn: { position: 'absolute', top: 16, left: 24 },
+  backBtn: { position: 'absolute', top: 50, left: 24 },
   backText: { fontSize: 15, color: '#8B0000', fontWeight: '500' },
   header: { alignItems: 'center', marginBottom: 28 },
   appName: { fontSize: 24, fontWeight: '700', color: '#1C1C1E', marginTop: 10 },

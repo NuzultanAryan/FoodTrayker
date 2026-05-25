@@ -33,7 +33,7 @@ export default function RoleScreen({ onSelectRole, onAdminRegister, onAdminLogin
         <Text style={styles.appSubtitle}>Sistem Pengambilan MBG</Text>
         {tapCount > 0 && (
           <Text style={styles.tapHint}>
-            {tapCount === 3 ? '🔐 Buka login admin...' : `${5 - tapCount} tap lagi untuk daftar admin`}
+            {tapCount === 3 ? ' Buka login admin...' : `${5 - tapCount} tap lagi untuk daftar admin`}
           </Text>
         )}
       </View>

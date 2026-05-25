@@ -54,7 +54,7 @@ export default function AdminDaftarSiswaScreen() {
 
         {/* Search */}
         <View style={styles.searchWrap}>
-          <Text style={styles.searchIcon}>🔍</Text>
+          <Text style={styles.searchIcon}>Cari</Text>
           <TextInput
             style={styles.searchInput}
             placeholder="Cari kelas..."
@@ -89,7 +89,7 @@ export default function AdminDaftarSiswaScreen() {
         )}
 
         <TouchableOpacity style={styles.refreshBtn} onPress={fetchDaftar}>
-          <Text style={styles.refreshText}>🔄 Perbarui</Text>
+          <Text style={styles.refreshText}>Perbarui</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
