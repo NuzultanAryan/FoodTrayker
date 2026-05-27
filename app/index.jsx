@@ -26,7 +26,7 @@ import ScanScreen from '../ScanScreen';
 
 const AdminHomeScreen = () => (
   <View style={styles.screen}>
-    <Text style={styles.pageTitle}>👋 Halo, Admin!</Text>
+    <Text style={styles.pageTitle}> Halo, Admin!</Text>
     <Text style={styles.pageSubtitle}>Gunakan menu + untuk lihat daftar siswa</Text>
   </View>
 );
