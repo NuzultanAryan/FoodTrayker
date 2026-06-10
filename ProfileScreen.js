@@ -1,6 +1,6 @@
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -23,14 +23,14 @@ export default function ProfileScreen() {
       try {
         const uid = auth.currentUser?.uid;
         if (!uid) return;
-        // Cek guru
+        
         const guruSnap = await getDoc(doc(db, 'guru', uid));
         if (guruSnap.exists()) {
           setProfil(guruSnap.data());
           setIsGuru(true);
           return;
         }
-        // Cek kelas (siswa)
+
         const kelasSnap = await getDoc(doc(db, 'kelas', uid));
         if (kelasSnap.exists()) setProfil(kelasSnap.data());
       } catch (error) {
@@ -62,7 +62,7 @@ export default function ProfileScreen() {
         <View style={styles.avatarSection}>
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>
-              {isGuru ? '👨‍🏫' : '🎒'}
+              {isGuru ? '🧑🏻‍🏫' : '🧑🏻‍🎓'}
             </Text>
           </View>
           <Text style={styles.namaText}>
@@ -76,7 +76,6 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        {/* Info Card */}
         <View style={styles.card}>
           {isGuru ? (
             <>

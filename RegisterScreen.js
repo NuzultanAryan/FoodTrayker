@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ActivityIndicator, Alert,
   KeyboardAvoidingView, Platform,
@@ -74,7 +74,7 @@ export default function RegisterScreen({ onRegister, onGoLogin }) {
               <Text style={styles.label}>Kelas</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Contoh: 10A, 11B, 12C"
+                placeholder="Contoh: XPPLG1, XIPPLG2, XIIPPLG3"
                 value={kelas}
                 onChangeText={setKelas}
                 autoCapitalize="characters"

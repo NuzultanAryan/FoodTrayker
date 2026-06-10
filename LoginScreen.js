@@ -49,7 +49,7 @@ export default function LoginScreen({ onLogin, onGoRegister, onBack }) {
         )}
         <View style={styles.header}>
           <Logo size={90} />
-          <Text style={styles.appName}>FoodTrayker</Text>
+                  <Text style={[styles.appName, { color: '#8B0000' }]}>Food<Text style={[styles.appName, { color: '#000000' }]}>Trayker</Text></Text>
           <Text style={styles.appSubtitle}>Login Siswa</Text>
         </View>
         <View style={styles.card}>
@@ -60,7 +60,7 @@ export default function LoginScreen({ onLogin, onGoRegister, onBack }) {
             <Text style={styles.label}>Kelas</Text>
             <TextInput
               style={styles.input}
-              placeholder="Contoh: XPPLG1, XPPLG2, XPPLG3"
+              placeholder="Contoh: XPPLG1, XIPPLG2, XIIPPLG3"
               value={kelas}
               onChangeText={setKelas}
               autoCapitalize="characters"

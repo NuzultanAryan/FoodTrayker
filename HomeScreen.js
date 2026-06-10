@@ -1,13 +1,13 @@
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { auth, db } from './firebase';
 
@@ -94,10 +94,9 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
 
-        {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.sapa}>{sapa} 👋</Text>
+            <Text style={styles.sapa}>{sapa} </Text>
             <Text style={styles.kelasText}>Kelas {kelas}</Text>
           </View>
           <View style={styles.logoBox}>
@@ -105,7 +104,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Status Hari Ini */}
         <View style={styles.statusCard}>
           <Text style={styles.statusLabel}>Status MBG Hari Ini</Text>
           {statusHariIni ? (
@@ -130,7 +128,6 @@ export default function HomeScreen() {
           )}
         </View>
 
-        {/* Statistik */}
         <Text style={styles.sectionTitle}>Statistik Kelas</Text>
         <View style={styles.statsRow}>
           <View style={styles.statCard}>
@@ -147,11 +144,10 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Riwayat */}
         <View style={styles.riwayatHeader}>
           <Text style={styles.sectionTitle}>Riwayat Terbaru</Text>
           <TouchableOpacity onPress={fetchData}>
-            <Text style={styles.refreshText}>🔄 Refresh</Text>
+            <Text style={styles.refreshText}>Refresh</Text>
           </TouchableOpacity>
         </View>
 

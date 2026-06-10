@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import {
-  View, Text, TextInput, TouchableOpacity, StyleSheet,
-  ActivityIndicator, Alert, SafeAreaView, KeyboardAvoidingView, Platform,
-} from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
+import {
+  ActivityIndicator, Alert,
+  KeyboardAvoidingView, Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text, TextInput, TouchableOpacity,
+  View,
+} from 'react-native';
 import { auth } from './firebase';
 import Logo from './Logo';
 
@@ -32,14 +36,14 @@ export default function LoginGuruScreen({ onLogin, onGoRegister, onBack }) {
         )}
         <View style={styles.header}>
           <Logo size={90} />
-          <Text style={styles.appName}>FoodTrayker</Text>
+                  <Text style={[styles.appName, { color: '#8B0000' }]}>Food<Text style={[styles.appName, { color: '#000000' }]}>Trayker</Text></Text>
           <Text style={styles.appSubtitle}>Login Guru</Text>
         </View>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Masuk</Text>
           <Text style={styles.cardSubtitle}>Gunakan NIP kamu untuk login</Text>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>NIP (Nomor Induk Pegawai)</Text>
+            <Text style={styles.label}>Nomor Induk Pegawai</Text>
             <TextInput
               style={styles.input}
               placeholder="Masukkan NIP kamu"
@@ -48,9 +52,6 @@ export default function LoginGuruScreen({ onLogin, onGoRegister, onBack }) {
               keyboardType="numeric"
               maxLength={20}
             />
-          </View>
-          <View style={styles.infoBox}>
-            <Text style={styles.infoText}>💡 Password default sama dengan NIP kamu</Text>
           </View>
           <TouchableOpacity style={[styles.btnLogin, loading && { opacity: 0.6 }]} onPress={handleLogin} disabled={loading}>
             {loading ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.btnLoginText}>Masuk</Text>}

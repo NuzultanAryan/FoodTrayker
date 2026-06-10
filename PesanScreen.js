@@ -1,23 +1,23 @@
 import {
-    addDoc,
-    collection,
-    doc,
-    getDoc,
-    onSnapshot,
-    orderBy,
-    query,
-    serverTimestamp,
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
 } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 import {
-    ActivityIndicator,
-    FlatList,
-    KeyboardAvoidingView, Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput, TouchableOpacity,
-    View,
+  ActivityIndicator,
+  FlatList,
+  KeyboardAvoidingView, Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput, TouchableOpacity,
+  View,
 } from 'react-native';
 import { auth, db } from './firebase';
 
@@ -34,13 +34,11 @@ export default function PesanScreen() {
         const uid = auth.currentUser?.uid;
         if (!uid) return;
 
-        // Ambil nama kelas dari akun
         const snap = await getDoc(doc(db, 'kelas', uid));
         if (!snap.exists()) return;
         const namaKelas = snap.data().kelas;
         setKelas(namaKelas);
 
-        // Listen realtime ke pesan kelas ini
         const q = query(
           collection(db, 'pesan_kelas', namaKelas, 'messages'),
           orderBy('createdAt', 'asc')
@@ -53,7 +51,7 @@ export default function PesanScreen() {
           }));
           setMessages(msgs);
           setLoading(false);
-          // Auto scroll ke bawah
+  
           setTimeout(() => {
             flatListRef.current?.scrollToEnd({ animated: true });
           }, 100);
@@ -137,11 +135,10 @@ export default function PesanScreen() {
         </View>
       </View>
 
-      {/* Messages */}
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={90}
+     <KeyboardAvoidingView
+      style={{ flex: 1, paddingBottom: 100 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={120}
       >
         {messages.length === 0 ? (
           <View style={styles.emptyWrap}>
@@ -162,7 +159,6 @@ export default function PesanScreen() {
           />
         )}
 
-        {/* Input */}
         <View style={styles.inputWrap}>
           <TextInput
             style={styles.input}
