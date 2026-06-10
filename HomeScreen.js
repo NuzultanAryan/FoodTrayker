@@ -20,9 +20,17 @@ export default function HomeScreen() {
   const today = new Date().toLocaleDateString('id-ID');
   const jam = new Date().getHours();
   const sapa = jam < 11 ? 'Selamat Pagi' : jam < 15 ? 'Selamat Siang' : jam < 18 ? 'Selamat Sore' : 'Selamat Malam';
-
-  useEffect(() => { fetchData(); }, []);
-
+``
+useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged((user) => {
+    if (user) {
+      fetchData();
+    } else {
+      setLoading(false);
+    }
+  });
+  return () => unsubscribe();
+}, []);
   const fetchData = async () => {
     setLoading(true);
     try {
