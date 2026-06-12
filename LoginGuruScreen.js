@@ -41,7 +41,7 @@ export default function LoginGuruScreen({ onLogin, onGoRegister, onBack }) {
         </View>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Masuk</Text>
-          <Text style={styles.cardSubtitle}>Gunakan NIP kamu untuk login</Text>
+          <Text style={[styles.cardSubtitle, { color: '#000000' }]}>Masukkan NIP kamu</Text>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Nomor Induk Pegawai</Text>
             <TextInput

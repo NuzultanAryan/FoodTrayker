@@ -1,4 +1,4 @@
-import { BarChart2, Home, MessageSquare, Plus, QrCode, User, X } from 'lucide-react-native';
+import { BarChart2, Home, Plus, QrCode, User, X } from 'lucide-react-native';
 import { useRef, useState } from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -59,10 +59,6 @@ const CustomTabBarGuru = ({ activePage, onTabPress }) => {
           {activePage === 'rekap' && <View style={styles.dot} />}
         </TouchableOpacity>
         <HexagonButton onPress={toggleMenu} isOpen={menuOpen} />
-        <TouchableOpacity style={styles.tabItem} onPress={() => onTabPress('messages')}>
-          <MessageSquare color={getColor('messages')} size={24} />
-          {activePage === 'messages' && <View style={styles.dot} />}
-        </TouchableOpacity>
         <TouchableOpacity style={styles.tabItem} onPress={() => onTabPress('profile')}>
           <User color={getColor('profile')} size={24} />
           {activePage === 'profile' && <View style={styles.dot} />}

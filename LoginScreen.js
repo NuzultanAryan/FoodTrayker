@@ -61,6 +61,7 @@ export default function LoginScreen({ onLogin, onGoRegister, onBack }) {
             <TextInput
               style={styles.input}
               placeholder="Contoh: XPPLG1, XIPPLG2, XIIPPLG3"
+              placeholderTextColor="#000000"
               value={kelas}
               onChangeText={setKelas}
               autoCapitalize="characters"
@@ -72,6 +73,7 @@ export default function LoginScreen({ onLogin, onGoRegister, onBack }) {
             <TextInput
               style={styles.input}
               placeholder="Masukkan password"
+              placeholderTextColor="#000000"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
