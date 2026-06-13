@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { useState } from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator,
-  Alert,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
+  View,
 } from 'react-native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
 export default function RegisterGuruScreen({ onRegister, onGoLogin, onBack }) {
@@ -99,12 +99,6 @@ export default function RegisterGuruScreen({ onRegister, onGoLogin, onBack }) {
                 keyboardType="numeric"
                 maxLength={20}
               />
-            </View>
-
-            <View style={styles.nipInfo}>
-              <Text style={styles.nipInfoText}>
-                🔒 Password default kamu adalah NIP kamu sendiri
-              </Text>
             </View>
 
             <TouchableOpacity
