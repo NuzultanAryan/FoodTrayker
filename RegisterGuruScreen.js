@@ -71,9 +71,6 @@ export default function RegisterGuruScreen({ onRegister, onGoLogin, onBack }) {
           </TouchableOpacity>
 
           <View style={styles.header}>
-            <View style={styles.logoCircle}>
-              <Text style={styles.logoEmoji}>👨‍🏫</Text>
-            </View>
             <Text style={styles.appName}>Daftar Guru</Text>
             <Text style={styles.appSubtitle}>Buat akun baru untuk guru</Text>
           </View>
