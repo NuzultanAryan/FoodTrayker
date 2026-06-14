@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Logo from './assets/logo.png';
 import { auth, db } from './firebase';
 
 export default function RegisterGuruScreen({ onRegister, onGoLogin, onBack }) {
@@ -70,6 +71,9 @@ export default function RegisterGuruScreen({ onRegister, onGoLogin, onBack }) {
           </TouchableOpacity>
 
           <View style={styles.header}>
+            <View style={styles.logoCircle}>
+              <Logo />
+            </View>
             <Text style={styles.appName}>Daftar Guru</Text>
             <Text style={styles.appSubtitle}>Buat akun baru untuk guru</Text>
           </View>
