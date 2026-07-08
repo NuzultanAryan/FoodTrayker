@@ -12,10 +12,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
+import Logo from './assets/logo.png';
 import { auth, db } from './firebase';
-import Logo from './Logo';
 
 export default function RegisterGuruScreen({ onRegister, onGoLogin, onBack }) {
   const [nama, setNama] = useState('');
@@ -72,7 +72,7 @@ export default function RegisterGuruScreen({ onRegister, onGoLogin, onBack }) {
 
           <View style={styles.header}>
             <View style={styles.logoCircle}>
-              <Text style={styles.logoEmoji}>👨‍🏫</Text>
+              <Logo />
             </View>
             <Text style={styles.appName}>Daftar Guru</Text>
             <Text style={styles.appSubtitle}>Buat akun baru untuk guru</Text>
