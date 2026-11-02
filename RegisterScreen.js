@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -79,6 +79,7 @@ export default function RegisterScreen({ onRegister, onGoLogin }) {
               <TextInput
                 style={styles.input}
                 placeholder="Contoh: XPPLG1, XIPPLG2, XIIPPLG3"
+                placeholderTextColor="#000000"
                 value={kelas}
                 onChangeText={setKelas}
                 autoCapitalize="characters"
@@ -90,6 +91,7 @@ export default function RegisterScreen({ onRegister, onGoLogin }) {
               <TextInput
                 style={styles.input}
                 placeholder="Minimal 6 karakter"
+                placeholderTextColor="#000000"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -101,6 +103,7 @@ export default function RegisterScreen({ onRegister, onGoLogin }) {
               <TextInput
                 style={styles.input}
                 placeholder="Ulangi password"
+                placeholderTextColor="#000000"
                 value={konfirmPassword}
                 onChangeText={setKonfirmPassword}
                 secureTextEntry
